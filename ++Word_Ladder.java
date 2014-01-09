@@ -1,9 +1,58 @@
+// Attempt 2, refer http://www.programcreek.com/2012/12/leetcode-word-ladder/
 
-
+public class Solution {
+    class GNode {
+        int level;
+        String word;
+        GNode(String str, int no) {
+            this.level = no;
+            word = str;
+        }
+    }
+    
+    public int ladderLength(String start, String end, HashSet<String> dict) {
+        // IMPORTANT: Please reset any member data you declared, as
+        // the same Solution instance will be reused for each test case.
+        Queue<GNode> queue = new LinkedList<GNode>();
+        
+        if(dict.size() == 0) return 0;
+        if(!dict.contains(start)) {
+            return 0;
+        }
+        
+        GNode s = new GNode(start, 1);
+        queue.offer(s);
+        
+        while(!queue.isEmpty()) {
+            GNode cur = queue.poll();
+            String curWord = cur.word;
+            
+            if(curWord.equals(end)) return cur.level;
+            
+            for(int i = 0; i < curWord.length(); i++) {
+                char[] arr = curWord.toCharArray();
+                for(char c = 'a'; c <= 'z'; c++) {
+                    if(c == curWord.charAt(i)) continue;
+                    arr[i] = c;
+                    String temp = new String(arr);
+                    
+                    if(dict.contains(temp)) {
+                        GNode g = new GNode(temp, cur.level + 1);
+                        queue.offer(g);
+                        dict.remove(temp);
+                    }
+                }
+            }
+        }
+        
+        return 0;
+    }
+}
 
 
 // Attempt 1, naive method, TLE
-
+// It's not necessary to compute all the distance between pairs.
+/*
 public class Solution {
 	
 	class GNode {
@@ -86,9 +135,7 @@ public class Solution {
     }
 
 
-	/**
-	 * @param args
-	 */
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Solution so = new Solution();
@@ -108,5 +155,5 @@ public class Solution {
 	}
 
 }
-
+*/
 
