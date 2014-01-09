@@ -1,0 +1,26 @@
+public class Solution {
+    public int singleNumber(int[] A) {
+        int single = 0;
+        for(int i = 0; i < A.length; i++) {
+            single = single ^ A[i];
+        }
+        
+        return single;
+    }
+
+    public int singleNumber(int[] A) {
+        // hash, not good enough
+        HashSet<Integer> map = new HashSet<Integer>();
+        for(int i = 0; i < A.length; i++) {
+            if(map.contains(A[i])) {
+                map.remove(A[i]);
+            } else {
+                map.add(A[i]);
+            }
+        }
+        
+        Object[] set = map.toArray();
+        Integer t = (Integer)set[0];
+        return t;
+    }
+}

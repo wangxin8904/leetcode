@@ -1,0 +1,45 @@
+/**
+ * Definition for binary tree
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    
+	   private TreeNode getRoot(int[] inorder, int il, int ir, int[] postorder, int pl, int pr) {
+	        if(pl > pr || il > ir) return null;
+	        
+	        int rootVal = postorder[pr];
+	        TreeNode root = new TreeNode(rootVal);
+	        
+	        int rootIdx = -1;
+	        //if root index is idx, then left subtree in postorder is [start, index - 1]
+	        // right subtree in postorder is [index, end - 1];
+	        for(int k = il; k <= ir; k++) {
+	            if(inorder[k] == rootVal) {
+	                rootIdx = k;  
+	                break;
+	            }
+	        }
+	        // notice the idx should use relative length
+	        int relativeLen = rootIdx - il;
+	        
+	        root.left = getRoot(inorder, il, il + relativeLen - 1, postorder, pl, pl + relativeLen - 1);
+	        root.right = getRoot(inorder, il + relativeLen +1, ir, postorder, pl + relativeLen, pr - 1);
+	        
+	        return root;
+	    }
+   
+   
+   public TreeNode buildTree(int[] inorder, int[] postorder) {
+       // IMPORTANT: Please reset any member data you declared, as
+       // the same Solution instance will be reused for each test case.
+       if(inorder == null || inorder.length == 0) return null;
+       
+       return getRoot(inorder, 0, inorder.length - 1, postorder, 0, postorder.length - 1);
+       
+   }
+}

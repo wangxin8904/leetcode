@@ -1,0 +1,28 @@
+public class Solution {
+    private void dfs(ArrayList<ArrayList<Integer>> ans, ArrayList<Integer> stack, int[] num, int start) {
+        
+        ans.add(new ArrayList<Integer>(stack));
+        
+        for(int i = start; i < num.length; i++) {
+            if(i != start && num[i] == num[i - 1]) continue;
+            
+            stack.add(num[i]);
+            dfs(ans, stack, num, i + 1);
+            stack.remove(stack.size() - 1);
+        }
+    }
+    
+    public ArrayList<ArrayList<Integer>> subsetsWithDup(int[] num) {
+        
+        Arrays.sort(num);
+        
+        ArrayList<ArrayList<Integer>> ans = new ArrayList<ArrayList<Integer>>();
+        ArrayList<Integer> stack = new ArrayList<Integer>();
+        
+        if(num == null) return ans;
+        
+        dfs(ans, stack, num, 0);
+        
+        return ans;
+    }
+}

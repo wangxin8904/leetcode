@@ -1,0 +1,42 @@
+public class Solution {
+    private int pos;
+    
+    private void bs(int[] A, int target, int start, int end) {
+        if(start > end) {
+            return;
+        }
+        
+        int mid = (start + end ) / 2;
+        if(A[mid] == target) {
+            pos = mid;
+            return;
+        }
+        
+        if(A[mid] > target) {
+            if(mid - 1 >= 0 && A[mid-1] < target) {
+                pos = mid; return;
+            }
+            else if(mid - 1 < 0) {
+                pos = 0; return;
+            } else
+                bs(A, target, start, mid -1);
+        } else {
+            if(mid + 1 < A.length && A[mid+1] > target) {
+                pos = mid + 1; return;
+            }
+            else if(mid + 1 >= A.length) {
+                pos = mid + 1; return;
+            }
+            else bs(A, target, mid + 1, end);
+        }
+        
+    }
+    
+    public int searchInsert(int[] A, int target) {
+        // IMPORTANT: Please reset any member data you declared, as
+        // the same Solution instance will be reused for each test case.
+        pos = 0;
+        bs(A, target, 0, A.length - 1);
+        return pos;
+    }
+}

@@ -1,0 +1,23 @@
+
+// still need ‘divide and conquer’ method
+
+
+public class Solution {
+    public int maxSubArray(int[] A) {
+        if(A.length == 1) return A[0];
+        
+        int max = A[0], curSum = A[0];
+        
+        for(int i = 1; i < A.length; i++) {
+            if(curSum < 0) {
+                curSum = 0;
+            }
+            
+            curSum += A[i];
+            max = Math.max(curSum, max);
+
+        }
+        
+        return max;
+    }
+}

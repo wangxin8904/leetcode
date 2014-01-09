@@ -1,0 +1,68 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; next = null; }
+ * }
+ */
+/**
+ * Definition for binary tree
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    private int getLen(ListNode head) {
+        if(head == null) return 0;
+        int len = 0;
+        while(head != null) {
+            len++;
+            head = head.next;
+        }
+        return len;
+    }
+    
+    private ListNode getTh(ListNode head, int pos) {
+        if(pos <= 0) return null;
+        
+        ListNode cur = head;
+        for(int i = 1; i < pos; i++) {
+            cur = cur.next;
+        }
+        return cur;
+    }
+    
+    private TreeNode subTree(ListNode head, ListNode tail, int len) {
+        if(len <= 0) return null;
+        
+        int mid = (len + 1) / 2;
+        ListNode midNode = getTh(head, mid);
+        TreeNode midTreeNode = null;
+        if(midNode != null) {
+            midTreeNode = new TreeNode(midNode.val);
+        } else {
+            midTreeNode = null;
+            return midTreeNode;
+        }
+        
+        ListNode midLeft = getTh(head, mid - 1);
+        ListNode midRight = getTh(head, mid + 1 );
+        
+        midTreeNode.left = subTree(head, midLeft, (len + 1) / 2 - 1 );
+        midTreeNode.right = subTree(midRight, tail, len / 2);
+        
+        
+        return midTreeNode;
+    }
+    
+    public TreeNode sortedListToBST(ListNode head) {
+        // Note: The Solution object is instantiated only once and is reused by each test case.
+        int totalLen = getLen(head);
+        ListNode tail = getTh(head, totalLen);
+        return subTree(head, tail, totalLen);
+    }
+}

@@ -1,0 +1,56 @@
+public class Solution {
+    private boolean[] digit = new boolean[9];
+    
+    private void setZero(){
+        for(int i = 0; i < digit.length; i++) {
+            digit[i] = false;
+        }
+    }
+    
+    public boolean isValidSudoku(char[][] board) {
+        setZero();
+        // check row
+        for(int row = 0; row < board.length; row++) {
+            setZero();
+            for(int col = 0; col < board[0].length; col++) {
+                if(board[row][col] != '.') {
+                    int temp = (board[row][col] - '1');
+                    if(digit[temp] == false) digit[temp] = true;
+                    else return false;
+                } 
+            }
+        }
+        
+        //check col
+        for(int col = 0; col < board[0].length; col++) {
+            setZero();
+            for(int row = 0; row < board.length; row++) {
+                if(board[row][col] != '.') {
+                    int temp = (board[row][col] - '1');
+                    if(digit[temp] == false) digit[temp] = true;
+                    else return false;                    
+                }
+            }
+        }
+        
+        // check small board
+        for(int i = 0; i <= 2; i++) {
+            for(int j = 0; j <= 2; j++) {
+                setZero();
+                for(int m = 0; m <= 2; m++) {
+                    for(int n = 0; n <= 2; n++) {
+                        int row = 3 * i + m;
+                        int col = 3 * j + n;
+                        if(board[row][col] != '.') {
+                    int temp = (board[row][col] - '1');
+                    if(digit[temp] == false) digit[temp] = true;
+                    else return false;                             
+                        }
+                    }
+                }
+            }
+        }
+        
+        return true;
+    }
+}

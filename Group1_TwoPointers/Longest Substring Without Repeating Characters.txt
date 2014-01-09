@@ -1,0 +1,32 @@
+
+
+public class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        // Note: The Solution object is instantiated only once and is reused by each test case.
+        int len = s.length();
+        
+        if(len <= 1) return len;
+        
+        int longest = 0;
+        int left = 0, right = 0;
+        HashSet<Character> map = new HashSet<Character>();
+        map.add(s.charAt(left));
+        while(right < len - 1) {
+            right++;
+            if(map.contains(s.charAt(right))) {
+                while(s.charAt(left) != s.charAt(right)) {
+                	map.remove(s.charAt(left));
+                	left++;
+                }
+                left++;
+               
+            } else {
+                map.add(s.charAt(right));
+                int dist = right - left + 1;
+                longest = (longest >= dist) ? longest : dist;
+            }
+        }
+        
+        return longest;
+    }
+}

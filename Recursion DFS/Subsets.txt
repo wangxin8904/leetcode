@@ -1,0 +1,30 @@
+public class Solution {
+    private void dfs(ArrayList<ArrayList<Integer>> ans, ArrayList<Integer> cur, int[] S, int curIndex) {
+        if(curIndex == S.length) {
+            ArrayList<Integer> temp = new ArrayList<Integer>(cur);
+            ans.add(temp);
+            return;
+        } else {
+            cur.add(S[curIndex]);
+        }
+        
+        for(int i = curIndex + 1; i <= S.length; i++) {
+            dfs(ans, cur, S, i);
+        }
+        
+        cur.remove(cur.size() - 1);
+    }
+    
+    public ArrayList<ArrayList<Integer>> subsets(int[] S) {
+        ArrayList<ArrayList<Integer>> ans = new ArrayList<ArrayList<Integer>>();
+        ArrayList<Integer> cur =new ArrayList<Integer>();
+        
+        Arrays.sort(S);
+        
+        for(int i = 0; i <= S.length; i++) {
+            dfs(ans, cur, S, i);
+        }
+        
+        return ans;
+    }
+}

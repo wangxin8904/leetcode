@@ -1,0 +1,32 @@
+public class Solution {
+    public int reverse(int x) {
+        boolean positive = true;
+        if(x < 0) {
+            positive = false;
+            x = -x;
+        }
+        
+        String s = "";
+        while(x > 0) {
+            int res = x % 10;
+            x = x / 10;
+            char c = (char)(res + '0');
+            String digit = "" + c;
+            s += digit;
+        }
+        
+        // zeros
+        int i = 0;
+        for(i = 0; i < s.length(); i++) {
+            if(s.charAt(i) == '0') {
+                
+            } else break;
+        }
+        s = s.substring(i, s.length());
+        
+        
+        int k = 0;
+        if(s != "") k = Integer.parseInt(s);
+        return positive ? k : -k;
+    }
+}

@@ -1,0 +1,45 @@
+public class Solution {
+    public String convert(String s, int nRows) {
+        
+        ArrayList<ArrayList<Character>> map = new ArrayList<ArrayList<Character>>();
+        for(int i = 0; i < nRows; i++) {
+            ArrayList<Character> temp = new ArrayList<Character>();
+            map.add(temp);
+        }
+        
+        int index = 0;
+        boolean flag = true;
+        while(flag) {
+            for(int i = 0; i < nRows && flag; i++) {
+                
+                if(index < s.length() ) {
+                    ArrayList<Character> temp = map.get(i);
+                    temp.add(s.charAt(index));
+                    index++;
+                } else {
+                    flag = false;
+                    break;
+                }
+            }
+            for(int i = nRows - 2; i >= 1 && flag; i--) {
+                
+                if(index < s.length()) {
+                    ArrayList<Character> temp = map.get(i);
+                    temp.add(s.charAt(index));      
+                    index++;
+                } else {
+                    flag = false;
+                    break;
+                }
+            }
+        }
+        
+        StringBuffer sb = new StringBuffer();
+        for(int i = 0; i < map.size(); i++) {
+            for(int j = 0; j < map.get(i).size(); j++) {
+                sb.append(map.get(i).get(j));
+            }
+        }
+        return sb.toString();
+    }
+}

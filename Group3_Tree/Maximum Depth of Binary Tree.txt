@@ -1,0 +1,24 @@
+/**
+ * Definition for binary tree
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    private int getHeight(TreeNode root) {
+        if(root == null) return 0;
+        
+        int L = getHeight(root.left);
+        int R = getHeight(root.right);
+        
+        return (L > R ? L : R) + 1;
+    }
+    
+    public int maxDepth(TreeNode root) {
+        // Note: The Solution object is instantiated only once and is reused by each test case.
+        return getHeight(root);
+    }
+}

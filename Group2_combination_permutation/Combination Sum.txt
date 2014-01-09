@@ -1,0 +1,47 @@
+public class Solution {
+    private int total(ArrayList<Integer> stack) {
+        int t = 0;
+        for(int i = 0; i < stack.size(); i++) {
+            t += stack.get(i);
+        }
+        return t;
+    }
+    
+    private void dfs(ArrayList<ArrayList<Integer>> res, ArrayList<Integer> stack, int[] candidates, int target, int idx) {
+        
+        if(total(stack) > target) return;
+        if(total(stack) == target) {
+            ArrayList<Integer> temp = new ArrayList<Integer>(stack);
+            Collections.sort(temp);
+            res.add(temp);
+            return;
+        }
+        
+        for(int i = idx; i < candidates.length; i++) {
+             stack.add(candidates[i]);
+            dfs(res, stack, candidates, target, i);
+            stack.remove(stack.size()-1);          
+        }
+        
+    }
+    
+    
+    public ArrayList<ArrayList<Integer>> combinationSum(int[] candidates, int target) {
+        // IMPORTANT: Please reset any member data you declared, as
+        // the same Solution instance will be reused for each test case.
+        Arrays.sort(candidates);
+        
+        ArrayList<ArrayList<Integer>> res = new ArrayList<ArrayList<Integer>>();
+        ArrayList<Integer> stack = new ArrayList<Integer>();
+        
+        
+        
+        for(int i = 0; i < candidates.length; i++) {
+            stack.add(candidates[i]);
+            dfs(res, stack, candidates, target, i);
+            stack.remove(stack.size()-1);
+        }
+        
+        return res;
+    }
+}

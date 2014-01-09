@@ -1,0 +1,35 @@
+public class Solution {
+    public void sortColors(int[] A) {
+        // Start typing your Java solution below
+        if(A.length <= 1) return;
+        if(A.length == 2) {
+            if(A[0] > A[1]) {
+                int temp = A[1];
+                A[1] = A[0];
+                A[0] = temp;
+            }
+            return;
+        }
+        
+        int left = 0, mid = 0, right = A.length - 1;
+        
+        while(mid <= right) {
+            if(A[mid] == 0) {
+                int temp = A[left];
+                A[left] = A[mid];
+                A[mid] = temp;
+                mid++;
+                left++;
+            } else if(A[mid] == 2) {
+                int temp = A[right];
+                A[right] = A[mid];
+                A[mid] = temp;
+                right--;
+            } else {
+                mid++;
+            }
+        }
+        
+    }
+
+}

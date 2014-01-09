@@ -1,0 +1,46 @@
+/**
+ * Definition for binary tree
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    private int calculus = 0;
+    private int status = 0;
+    
+    private void dfs(TreeNode root, int sum) {
+        if(root == null) 
+            return;
+        
+        if(status > 0) return;
+        
+        calculus += root.val;
+        
+        //only leaf node 
+        if(root.left == null && root.right == null) {
+            if(calculus == sum) {
+                status = 1;
+            }
+        }
+        
+        dfs(root.left, sum);
+        dfs(root.right, sum);
+        
+        calculus -= root.val;
+    }
+    
+    
+    public boolean hasPathSum(TreeNode root, int sum) {
+        // IMPORTANT: Please reset any member data you declared, as
+        // the same Solution instance will be reused for each test case.
+        calculus = 0; status = 0;
+        
+        dfs(root, sum);
+        
+        if(status == 0) return false;
+        else return true;
+    }
+}

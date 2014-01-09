@@ -1,0 +1,52 @@
+public class Solution {
+	// use the col and row of first zero to store info
+
+    private void setRow(int[][] matrix, int r) {
+        for(int j = 0; j < matrix[0].length; j++) 
+            matrix[r][j] = 0;
+    }
+    
+    private void setCol(int[][] matrix, int c) {
+        for(int i = 0; i < matrix.length; i++) 
+            matrix[i][c] = 0;
+    }
+    
+    public void setZeroes(int[][] matrix) {
+        int signRow = 0, signCol = 0;
+        
+        boolean found = false;
+        for(signRow = 0; signRow < matrix.length; signRow++) {
+            for(signCol = 0; signCol < matrix[0].length; signCol++) {
+                if(matrix[signRow][signCol] == 0) {
+                    found = true; break;
+                }
+            }
+            if(found) break;
+        }
+        
+        if(!found) return;
+        
+        for(int i = 0; i < matrix.length; i++) {
+            for(int j = 0; j < matrix[0].length; j++) {
+                if(matrix[i][j] == 0) {
+                    matrix[signRow][j] = 0;
+                    matrix[i][signCol] = 0;
+                }
+            }
+        }
+       
+        for(int i = 0; i < matrix.length; i++) {
+            if(matrix[i][signCol] == 0 && i != signRow) {
+                setRow(matrix, i);
+            }
+        }
+        for(int j = 0; j < matrix[0].length; j++) {
+            if(matrix[signRow][j] == 0 && j != signCol) {
+                setCol(matrix, j);
+            }
+        }
+        setRow(matrix, signRow);
+        setCol(matrix, signCol);
+        
+    }
+}

@@ -1,0 +1,52 @@
+/* Idea: 
+	??????????????????A????a??A?????????1??A??
+	swap A? ?A???A????????????
+	???????a???reverse
+*/
+
+public class Solution {
+	private void reverse(int[] num, int start, int end) {
+		if(start >= end || end >= num.length) return;
+		
+		while(start < end) {
+			int temp = num[start];
+			num[start] = num[end];
+			num[end] = temp;
+			start++;
+			end--;
+		}
+	}
+	
+    public void nextPermutation(int[] num) {
+        // IMPORTANT: Please reset any member data you declared, as
+        // the same Solution instance will be reused for each test case.
+        int i, j;
+        for(i = num.length-2; i >= 0; i--) {
+            int idx = -1;
+            // find the smallest number that is larger than num[i]
+            for(j = i + 1; j < num.length; j++) {
+                if(num[i] < num[j]) {
+                    if(idx == -1) {
+                        idx = j;
+                    } else if(num[idx] >= num[j]) {
+                        idx = j;
+                    }
+                }
+            }
+            
+            if(idx != -1) {
+            	//first swap.
+                int temp = num[i];
+                num[i] = num[idx];
+                num[idx] = temp;
+                // then reverse the latter part
+                reverse(num, i + 1, num.length - 1);
+                
+                return;
+            }
+        }
+        if(i == -1) {
+            Arrays.sort(num);
+        }
+    }
+}

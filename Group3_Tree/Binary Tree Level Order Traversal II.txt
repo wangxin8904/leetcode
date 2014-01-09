@@ -1,0 +1,45 @@
+/**
+ * Definition for binary tree
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    
+    private void DFS(TreeNode root, int level, HashMap<Integer, ArrayList<Integer>> map) {
+        if(root == null) return;
+        
+        ArrayList<Integer> arr = null;
+        if(map.containsKey(level)) {
+            arr = map.get(level);
+        } else {
+            arr = new ArrayList<Integer>();
+            map.put(level, arr);
+        }
+        
+        DFS(root.left, level + 1, map);
+        arr.add(root.val);
+        DFS(root.right, level + 1, map);
+    }
+    
+    public ArrayList<ArrayList<Integer>> levelOrderBottom(TreeNode root) {
+        // Note: The Solution object is instantiated only once and is reused by each test case.
+        HashMap<Integer, ArrayList<Integer>> map = new HashMap<Integer, ArrayList<Integer>>();
+        
+        DFS(root, 0, map);
+        
+        ArrayList<ArrayList<Integer>> ans = new ArrayList<ArrayList<Integer>>();
+        
+        Object[] array = map.keySet().toArray();
+        Arrays.sort(array);
+        for(int i = array.length - 1; i >= 0; i--) {
+            ArrayList<Integer> cur = map.get(array[i]);
+            ans.add(cur);
+        }
+        
+        return ans;
+    }
+}

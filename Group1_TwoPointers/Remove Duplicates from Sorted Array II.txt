@@ -1,0 +1,29 @@
+public class Solution {
+    public int removeDuplicates(int[] A) {
+        // Note: The Solution object is instantiated only once and is reused by each test case.
+        if(A == null) return 0;
+        if(A.length <= 2) return A.length;
+        
+        
+        int prevNum = A[0];
+        int count = 0;
+        int afterLen = A.length;
+ 
+        for(int j = 0; j <= afterLen - 1; j++) {
+            if(A[j] == prevNum) {
+                
+                if(count >= 2) {
+                    for(int i = j; i < afterLen - 1; i++) A[i] = A[i + 1];
+                    j--;
+                    afterLen--;
+                } else {
+                    count++;
+                }
+            } else {
+                prevNum = A[j];
+                count = 1;
+            }
+        }
+        return afterLen;
+    }
+}

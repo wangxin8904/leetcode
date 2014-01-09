@@ -1,0 +1,59 @@
+public class Solution {
+   
+    //method 1. constant space
+    public int minimumTotal(ArrayList<ArrayList<Integer>> triangle) {
+        // IMPORTANT: Please reset any member data you declared, as
+        // the same Solution instance will be reused for each test case.
+        if(triangle.size() == 1) return triangle.get(0).get(0);
+        
+        int minimal = Integer.MAX_VALUE;
+        for(int level = 1; level < triangle.size(); level++) {
+            ArrayList<Integer> up = triangle.get(level - 1);
+            ArrayList<Integer> down = triangle.get(level);
+            for(int j = 0; j < down.size(); j++) {
+                int min = Integer.MAX_VALUE;
+                if(j > 0) min = (min < down.get(j) + up.get(j - 1) ) ? min : down.get(j) + up.get(j - 1) ;
+                if(j < down.size() - 1) min = (min < down.get(j) + up.get(j)) ? min : down.get(j) + up.get(j);
+                
+                down.set(j, min);
+                
+                if(level == triangle.size() - 1) {
+                    minimal = (minimal < down.get(j) ) ? minimal : down.get(j);
+                }
+            }
+            
+        }
+        return minimal;
+    }
+
+// method 2
+    public int minimumTotal(ArrayList<ArrayList<Integer>> triangle) {
+        if(triangle.size() == 1) return triangle.get(0).get(0);
+        
+        int[] dp = new int[triangle.size()];
+        dp[0] = triangle.get(0).get(0);
+        
+        int minimal = Integer.MAX_VALUE;
+        for(int i = 1; i < triangle.size(); i++) {
+            ArrayList<Integer> cur = triangle.get(i);
+            
+            int val = 0;
+            for(int j = 0; j < cur.size(); j++) {
+                int left = Integer.MAX_VALUE, right = Integer.MAX_VALUE;
+                if(j > 0) left = cur.get(j) + val;
+                if(j < cur.size() - 1) right = cur.get(j) + dp[j];
+                
+                val = dp[j];
+                dp[j] = left > right ? right : left;
+                
+                
+                if(i == triangle.size() - 1) {
+                     minimal = (minimal < dp[j]) ? minimal : dp[j];
+                }
+            }
+            
+
+        }
+        return minimal;
+    }
+}

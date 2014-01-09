@@ -1,0 +1,38 @@
+public class Solution {
+    public static String[] board= { "", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz" };
+    private ArrayList<String> res  = null;
+    
+    private void dfs(String digits,int index, ArrayList<String> letters) {
+        if(index == digits.length()) {
+            StringBuffer sb = new StringBuffer();
+            for(String s : letters) {
+                sb.append(s);
+            }
+            res.add("" + sb.toString());
+            return;
+        }
+        
+        char c = digits.charAt(index);
+        int num = (int)(c - '0');
+        for(int i = 0; i < board[num].length(); i++) {
+            String temp = "" + board[num].charAt(i);
+            letters.add(temp);
+            dfs(digits, index + 1, letters);
+            letters.remove(letters.size() - 1);
+        }
+        
+    }
+    
+    public ArrayList<String> letterCombinations(String digits) {
+        // IMPORTANT: Please reset any member data you declared, as
+        // the same Solution instance will be reused for each test case.
+        
+        ArrayList<String> letters = new ArrayList<String>();
+        res = new ArrayList<String>();
+        if(digits == null) return res;
+        
+        dfs(digits, 0, letters);
+        
+        return res;
+    }
+}

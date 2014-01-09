@@ -1,0 +1,36 @@
+public class Solution {
+    private boolean find(int[] A, int target, int start, int end) {
+        if(start > end) return false;
+        
+        int mid = (start + end) / 2;
+        if(A[mid] == target) return true;
+        
+        if(A[start] < A[mid]) { // left sorted
+            if(A[start] <= target && target < A[mid]) 
+                return find(A, target, start, mid - 1);
+            else 
+                return find(A, target, mid + 1, end);
+        } else if(A[start] > A[mid]){   // right sorted
+            if(A[mid + 1] <= target && target <= A[end]) 
+                return find(A, target, mid + 1, end);
+            else 
+                return find(A, target, start, mid - 1);
+        } else { // A[start] == A[mid], we have no idea which part is sorted
+            if(A[mid] != A[end]) { //left is all repeats
+                return find(A, target, mid + 1, end);
+            } else {  // need to search both parts. eg [1, 3, 1, 1, 1]
+                boolean res = find(A, target, start, mid - 1);
+                if(res == false) {
+                    res = find(A, target, mid + 1, end);
+                }
+                return res;
+            }
+        }
+        
+    }
+    
+    public boolean search(int[] A, int target) {
+      
+        return find(A, target, 0, A.length - 1);
+    }
+}

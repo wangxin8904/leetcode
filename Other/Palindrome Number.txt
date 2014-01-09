@@ -1,0 +1,31 @@
+public class Solution {
+    
+    // http://yucoding.blogspot.com/2013/04/leetcode-question-62-palindrome-number.html
+    // no extra space = constant space ?
+    
+    public boolean isPalindrome(int x) {
+        if(x < 0) return false;
+        if(x == 0) return true;
+        
+        int unit = 1;
+        int xx = x;
+        while(xx >= 10) {
+            xx = xx/10;
+            unit *= 10;
+        }
+        
+        xx = 10;
+        while(xx <= unit) {
+        	int right = (x % xx)  / (xx / 10);
+        	int left = (x / unit) % 10 ;
+             if( left != right) {
+                 return false; 
+             } else {
+                 unit = unit / 10;
+                 xx *= 10;
+             }
+        }
+        
+        return true;
+    }
+}

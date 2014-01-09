@@ -1,0 +1,37 @@
+public class Solution {
+    public ArrayList<String> anagrams(String[] strs) {
+    	ArrayList<String> result = new ArrayList<String>();
+        HashMap<String, Integer> map = new HashMap<String, Integer>();
+        
+        int[] flags = new int[strs.length];
+        for(int i = 0; i < flags.length; i++) flags[i] = -1;
+        
+        
+        for(int i = 0; i < strs.length; i++) {
+            char[] arr = strs[i].toCharArray();
+            Arrays.sort(arr);
+            String temp = new String(arr);
+            if( !map.containsKey(temp)) {
+                map.put(temp, i);
+            } else {
+                int idx = map.get(temp);
+                flags[i] = idx;
+                map.put(temp, i);
+            }
+        }
+        
+        Iterator it = map.keySet().iterator();
+        while(it.hasNext()) {
+        	String key = (String)it.next();
+        	int index = map.get(key);
+        	if(flags[index] == -1) continue;
+        	
+        	while(index != -1) {      		
+    			result.add(strs[index]);
+    			index = flags[index];
+        	}
+        	
+        }
+        return result;
+    }
+}

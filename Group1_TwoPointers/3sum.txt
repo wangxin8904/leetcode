@@ -1,0 +1,34 @@
+public class Solution {
+    public ArrayList<ArrayList<Integer>> threeSum(int[] num) {
+        // Note: The Solution object is instantiated only once and is reused by each test case.
+        ArrayList<ArrayList<Integer>> ans = new ArrayList<ArrayList<Integer>>();
+        if(num.length < 3) return ans;
+        
+        Arrays.sort(num);
+        
+        int left = 0, mid = 0 ,right = 0;
+        for(left = 0; left <= num.length - 3; left ++) {
+            if(left > 0 && num[left] == num[left - 1]) continue;
+            mid = left + 1; right = num.length -1;
+            
+            while(mid < right) {
+                if(num[left] + num[mid] + num[right] < 0) 
+                    mid++;
+                else if(num[left] + num[mid] + num[right] > 0) 
+                    right--;
+                else {
+                    ArrayList<Integer> cur = new ArrayList<Integer>();
+                    cur.add(num[left]);
+                    cur.add(num[mid]);
+                    cur.add(num[right]);
+                    ans.add(cur);
+                    mid++; right--;
+                    while(mid < right && num[mid - 1] == num[mid]) mid++;
+                    while(mid < right && num[right + 1] == num[right]) right--;
+                }
+            }
+        }
+        
+        return ans;
+    }
+}

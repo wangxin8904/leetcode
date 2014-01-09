@@ -1,0 +1,20 @@
+public class Solution {
+    public int[] twoSum(int[] numbers, int target) {
+        // Note: The Solution object is instantiated only once and is reused by each test case.
+        HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+        
+        int[] ans = new int[2];
+        for(int i = 0; i < numbers.length; i++) {
+            int diff = target - numbers[i];
+            if(map.containsKey(diff)) {
+                ans[0] = map.get(diff) + 1;
+                ans[1] = i + 1;
+                break;
+            } else {
+                map.put(numbers[i], i);
+            }
+        }
+        
+        return ans;
+    }
+}

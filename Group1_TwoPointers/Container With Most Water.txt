@@ -1,0 +1,22 @@
+public class Solution {
+    public int maxArea(int[] height) {
+        // Note: The Solution object is instantiated only once and is reused by each test case.
+        int total = -1;
+        
+        int left = 0, right = height.length - 1;
+        
+        while(left < right) {
+            int h = height[left] < height[right] ? height[left] : height[right];
+            int vol = h * (right - left);
+            if(vol > total) 
+                total = vol;
+                
+            if(height[left] < height[right]) //the lower wall is the bottleneck, should change it first
+                left++;
+            else
+                right--;
+        }
+    
+        return total;    
+    }
+}

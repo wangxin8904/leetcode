@@ -1,0 +1,75 @@
+public class Solution {
+      
+	    // x >= 0, n >= 0  
+		// use binary cut. Or exceed time limit
+	    private double dfs(double x, int n) {
+	        
+	        if(n == 0) return 1.0;
+	        if(n == 1) return x;
+	    	if((new Double(x)).equals(0.0)) return 0;
+	    	if((new Double(x)).equals(1.0)) return 1;
+	        
+	        double m = dfs(x, n / 2) ;
+	        double t = dfs(x, n % 2);
+	        	       	      
+	        return m * m * t;
+	    }
+	    
+	    
+	    // corner case 1 : base = 0
+	    public double pow(double x, int n) {
+	    	
+	        boolean basePos = x >= 0;
+	        boolean indexPos = n >= 0 ;
+	        
+	        double base = basePos ? x : -x;
+	        int index = indexPos ? n : -n;
+	        
+	        //
+	        double ans = dfs(base, index);
+	
+	        if(!indexPos) ans = 1 / ans;
+	        if(!basePos && n % 2 == 1) ans = -ans; 
+	        
+	        return ans;   
+	    }
+}
+
+
+
+
+
+
+---------------Failed at Last executed input: 	0.00001, 2147483647-----------------------------------------------------
+
+public class Solution {
+      
+    // x >= 0, n >= 0  
+	// use binary cut. Or exceed time limit
+    private double dfs(double x, int n) {
+        
+        if(n == 0) return 1.0;
+        if(n == 1) return x;
+        
+        return dfs(x, n / 2) * dfs(x, n / 2) * dfs(x, n % 2);   // this style is not good. dfs(x, n/2) is computed twice.
+    }
+    
+    
+    // corner case 1 : base = 0
+    public double pow(double x, int n) {
+    	if((new Double(x)).equals(0.0)) return 0;
+    	if((new Double(x)).equals(1.0)) return 1;
+    	
+        boolean basePos = x >= 0;
+        boolean indexPos = n >= 0 ;
+        
+        double base = basePos ? x : -x;
+        int index = indexPos ? n : -n;
+        
+        double ans = dfs(base, index);
+        if(!indexPos) ans = 1 / ans;
+        if(!basePos && n % 2 == 1) ans = -ans; 
+        
+        return ans;   
+    }
+}

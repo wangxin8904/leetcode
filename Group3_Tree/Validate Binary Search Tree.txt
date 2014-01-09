@@ -1,0 +1,41 @@
+/**
+ * Definition for binary tree
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    // method 1 : inorder traversal
+    private void indfs(ArrayList<Integer> res, TreeNode root) {
+        if(root == null) return;
+        indfs(res, root.left);
+        res.add(root.val);
+        indfs(res, root.right);
+    }
+    private boolean inorder(TreeNode root) {
+        ArrayList<Integer> res = new ArrayList<Integer>();
+        indfs(res, root);
+        
+        for(int i = 0; i < res.size() - 1; i++) {
+            if(res.get(i) >= res.get(i+1)) return false;
+        }
+        return true;
+    }
+    
+    // method 2
+    private boolean between(TreeNode root, int min, int max) {
+        if(root == null) return true;
+        if(root.val >= max || root.val <= min) return false;
+        
+        return between(root.left, min, root.val) && between(root.right, root.val, max);
+    }
+    
+    public boolean isValidBST(TreeNode root) {
+        // IMPORTANT: Please reset any member data you declared, as
+        // the same Solution instance will be reused for each test case.
+        return between(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
+    }
+}

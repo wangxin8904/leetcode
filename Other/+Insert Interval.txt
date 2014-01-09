@@ -1,0 +1,74 @@
+/**
+ * Definition for an interval.
+ * public class Interval {
+ *     int start;
+ *     int end;
+ *     Interval() { start = 0; end = 0; }
+ *     Interval(int s, int e) { start = s; end = e; }
+ * }
+ */
+public class Solution {
+    public ArrayList<Interval> insert(ArrayList<Interval> intervals, Interval newInterval) {
+        ArrayList<Interval> res = new ArrayList<Interval>();
+        if(intervals.size() == 0) {
+        	res.add(newInterval);
+        	return res;
+        }
+        
+        int i = 0;
+        int start = 0, end = 0;
+        boolean overlap = false;
+        boolean merged = false;
+        
+        while(i < intervals.size()) {
+            Interval cur = intervals.get(i);
+            if(merged) {
+                res.add(cur);
+                i++;
+                continue;
+            }
+            else {
+                if(overlap) {
+                    if(end < cur.start) {
+                        res.add(new Interval(start, end));
+                        res.add(cur);
+                        i++;
+                        merged = true;
+                        overlap = false;
+                        continue;
+                    } else {
+                        end = (end > cur.end) ? end  : cur.end  ;
+                        i++;
+                        continue;
+                    }
+                }
+                
+                if(cur.start > newInterval.end) { //
+                    res.add(new Interval(newInterval.start, newInterval.end));
+                    res.add(cur);
+                    merged = true;
+                    i++; 
+                    continue;
+                } else if(cur.end < newInterval.start) { //
+                    res.add(cur);
+                    i++;
+                    continue;
+                } 
+                else /*if(cur.end >= newInterval.start)*/ {  //need to merge
+                    start = (cur.start < newInterval.start) ? cur.start : newInterval.start;
+                    end = (cur.end > newInterval.end) ? cur.end : newInterval.end;
+                    overlap = true;
+                    i++;
+                    continue;
+                }
+            }
+           
+        }
+        if(overlap) {
+        	res.add(new Interval(start, end));
+        } else if(merged == false ) {
+        	res.add(newInterval);
+        }
+        return res;
+    }
+}

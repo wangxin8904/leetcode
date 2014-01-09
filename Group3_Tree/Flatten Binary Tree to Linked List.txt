@@ -1,0 +1,41 @@
+/**
+ * Definition for binary tree
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    private void preOrder(TreeNode root, LinkedList<TreeNode> l) {
+    	if(root == null) return;
+    	
+    	l.add(root);
+    	preOrder(root.left, l);
+    	preOrder(root.right, l);
+    }
+	
+    public void flatten(TreeNode root) {
+        // Note: The Solution object is instantiated only once and is reused by each test case.
+        LinkedList<TreeNode> li = new LinkedList<TreeNode>();
+        if(root == null) {
+        	li.add(null);
+        	return;
+        }
+        
+        preOrder(root, li);
+        
+        if(li.size() <= 1) return;
+        
+        for(int i = 0; i < li.size() - 1; i++) {
+        	TreeNode cur = li.get(i);
+        	cur.left = null;
+        	cur.right = li.get(i+1);
+        }
+        TreeNode tail = li.get(li.size() - 1);
+        tail.left = null;
+        tail.right = null;
+        
+    }
+}

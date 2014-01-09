@@ -1,0 +1,13 @@
+public class Solution {
+    public int lengthOfLastWord(String s) {
+        // IMPORTANT: Please reset any member data you declared, as
+        // the same Solution instance will be reused for each test case.
+        if(s == null) return 0;
+        
+        String low = s.toLowerCase();
+        String[] words = low.split(" ");
+        if(words.length >= 1)
+            return words[words.length - 1].length();
+        else return 0;
+    }
+}

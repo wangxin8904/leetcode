@@ -1,0 +1,50 @@
+public class Solution {
+    public void power(StringBuffer ans, int val, int idx) {
+    	while(ans.length() <= idx) {
+    		ans.append("0");
+    	}
+    	
+        int cur = ans.charAt(idx) - '0';
+        int sum = cur + val;
+        
+        String temp = String.valueOf(sum % 10);
+        ans.replace(idx, idx + 1, temp);
+        
+        if(sum >= 10) {
+        	if(idx + 1 > ans.length()) ans.append("0");
+            power(ans, sum / 10, idx + 1);
+        } 
+    }
+    
+    
+    public String multiply(String num1, String num2) {
+        // Note: The Solution object is instantiated only once and is reused by each test case.
+        StringBuffer ans = new StringBuffer("0");
+       
+        int a = num1.length() - 1;
+        int b = num2.length() - 1;
+        for( a = num1.length() - 1; a >= 0; a--) {
+            for( b = num2.length() - 1; b >= 0; b--) {
+                int one = num1.charAt(a) - '0';
+                int two = num2.charAt(b) - '0';
+                
+                int idxa = num1.length() - 1 - a;
+                int idxb = num2.length() - 1 - b;
+                
+                power(ans, one * two, idxa + idxb);
+            }
+        }
+        
+        StringBuffer res = new StringBuffer();
+        boolean firstUn = false;
+        for(int j = ans.length() - 1; j >= 0; j--) {
+        	if(!firstUn && ans.charAt(j) != '0') {
+        		firstUn = true;
+        	}
+        	if(firstUn)
+        		res.append(ans.charAt(j));
+        }
+        if(res.length() == 0) res.append("0");
+        return res.toString();
+    }
+}

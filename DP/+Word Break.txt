@@ -1,0 +1,46 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+///////////////////////////// My method//////////////////////////////////////
+public class Solution {
+
+    
+    public boolean wordBreak(String s, Set<String> dict) {
+        //boolean[] dp = new boolean[s.length()];
+        int[] dp = new int[s.length()];
+        if(dict.contains(s.substring(0,1))) dp[0] = 1;
+        else dp[0] = -1;
+        
+        for(int i = 0; i < s.length(); i++) {
+            for(int j = 0; j <= i; j++) {
+                if(dp[j] == 0) {
+                    String sub = s.substring(0, j + 1);
+                    if(dict.contains(sub)) {
+                        dp[j] = 1;
+                    } else dp[j] = -1;
+                }
+                
+                if(dp[j] == 1 && j < i) {
+                    String sub = s.substring(j + 1, i + 1);
+                    if(dict.contains(sub)) {
+                        dp[i] = 1;
+                    }
+                }
+            }
+        }
+        
+        if(dp[s.length() - 1] == 1) return true;
+        else
+            return false; 
+    }
+}

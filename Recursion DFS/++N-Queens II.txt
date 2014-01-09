@@ -1,0 +1,30 @@
+public class Solution {
+    //http://www.cnblogs.com/lichen782/p/leetcode_NQueenII.html
+    
+    private int totalNum = 0;
+    private int upperlim = 0;
+    
+    private void dfs(int col, int ld, int rd) {
+        if(col == upperlim) {
+            totalNum++;
+        } else {
+            int pos, p;
+            pos =   upperlim & (~(col | ld | rd) ) ;
+            while(pos != 0) {
+                p = pos & (~pos + 1) ;
+                pos = pos - p;
+                dfs( col + p, (ld + p) << 1, (rd + p) >> 1 );
+            }
+        }
+        
+    }
+    
+    public int totalNQueens(int n) {
+        totalNum = 0;
+        upperlim = (1 << n) - 1;
+        
+        dfs(0,0,0);
+        
+        return totalNum;
+    }
+}

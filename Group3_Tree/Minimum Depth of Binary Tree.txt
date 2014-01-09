@@ -1,0 +1,40 @@
+/**
+ * Definition for binary tree
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    
+    class W {
+        int M = Integer.MAX_VALUE;
+    }
+    
+    private void DFS(TreeNode r, int level, W w) {
+        if(r.left == null && r.right == null) {
+            w.M = (w.M < level) ? w.M : level;
+            return;
+        }
+        
+        if(r.left != null) {
+            DFS(r.left, level + 1, w);
+        }
+        if(r.right != null) {
+            DFS(r.right, level + 1, w);
+        }
+        
+    }
+    
+    public int minDepth(TreeNode root) {
+        // Note: The Solution object is instantiated only once and is reused by each test case.
+        if(root == null) return 0;
+        else {
+            W w = new W();
+            DFS(root, 1, w);
+            return w.M;   
+        }
+    }
+}

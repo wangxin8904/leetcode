@@ -1,0 +1,36 @@
+/**
+ * Definition for binary tree
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    private void dfs(ArrayList<ArrayList<Integer>> res, TreeNode root, int level) {
+        if(root == null) return;
+        ArrayList<Integer> cur = null;
+        if(res.size() < level) {
+            cur = new ArrayList<Integer>();
+            res.add(cur);
+        } else {
+            cur = res.get(level - 1);
+        }
+
+        dfs(res, root.left, level + 1);
+        cur.add(root.val);
+        dfs(res, root.right, level + 1);
+
+    }
+    
+    public ArrayList<ArrayList<Integer>> levelOrder(TreeNode root) {
+        // IMPORTANT: Please reset any member data you declared, as
+        // the same Solution instance will be reused for each test case.
+        ArrayList<ArrayList<Integer>> res = new ArrayList<ArrayList<Integer>>();
+ 
+        dfs(res, root, 1);
+
+        return res;
+    }
+}

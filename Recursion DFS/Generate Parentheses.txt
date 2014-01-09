@@ -1,0 +1,49 @@
+public class Solution {
+    private int left = 0, right = 0;
+    ArrayList<String> res = null;
+    
+    private void dfs(ArrayList<String> cur) {
+        if(left == 0 && right == 0) {
+            StringBuffer sb = new StringBuffer();
+            for(String s : cur) {
+                sb.append(s);
+            }
+            res.add(sb.toString());
+            return;
+        }
+        
+        if(left == right) {
+            cur.add("(");
+            left--;
+            dfs(cur);
+            cur.remove(cur.size() - 1);
+            left++;
+        } else {
+            cur.add(")");
+            right--;
+            dfs(cur);
+            cur.remove(cur.size() - 1); 
+            right++;
+        	
+            if(left > 0) {
+	            cur.add("(");
+	            left--;
+	            dfs(cur);
+	            cur.remove(cur.size() - 1);
+	            left++;
+            }
+        }
+
+    }
+     
+    public ArrayList<String> generateParenthesis(int n) {
+        left = n; right = n;
+        res = new ArrayList<String>();
+        
+        ArrayList<String> cur = new ArrayList<String>();
+        
+        dfs(cur);
+        
+        return res;
+    }
+}

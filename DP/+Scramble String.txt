@@ -1,0 +1,68 @@
+---------DP-----------------
+
+
+
+
+
+
+
+
+
+
+
+------------method 1, ETL -------------------
+public class Solution {
+    // divide s1 to two halves, the same to s2
+    // if s1 ~ s2, then one of the two must be true 
+    // (s11 ~ s21)&&(s12 ~ s22)        (s11 ~ s22)&&(s12 ~ s21)       
+
+	
+    
+    private boolean isSimiliar(String s1, String s2) {
+        if(s1.length() != s2.length()) return false;
+        if(s1.length() == 1) return s1.charAt(0) == s2.charAt(0);
+        
+	   // first tip, trim by checking if the letters are same 
+        int[] arr = new int[26];
+        for(int i = 0; i < s1.length(); i++) {
+        	arr[s1.charAt(i) - 'a']++;
+        	arr[s2.charAt(i) - 'a']--;
+        }
+        for(int i = 0; i < arr.length; i++) {
+        	if(arr[i] != 0) return false;
+        }
+        
+        
+        boolean flag = false;
+        for(int split = 1; split <= s1.length() - 1; split++) {
+            String oneLeft = s1.substring(0, split);
+            String oneRight = s1.substring(split , s1.length());
+
+            // second tip, s2 has two ways to split
+            String twoLeft = s2.substring(0, split);
+            String twoRight = s2.substring(split, s2.length());
+            
+            if( (isSimiliar(oneLeft, twoLeft) && isSimiliar(oneRight, twoRight)) 
+                || ( isSimiliar(oneLeft, twoRight) && isSimiliar(oneRight, twoLeft) ) ) {
+                    flag = true;
+                    break;
+            }
+            
+
+            twoLeft = s2.substring(0, s2.length() - split);
+            twoRight = s2.substring(s2.length() - split, s2.length());
+            
+            if( (isSimiliar(oneLeft, twoLeft) && isSimiliar(oneRight, twoRight)) 
+                    || ( isSimiliar(oneLeft, twoRight) && isSimiliar(oneRight, twoLeft) ) ) {
+                        flag = true;
+                        break;
+            }    
+        }
+        
+        return flag;
+    }
+    
+    public boolean isScramble(String s1, String s2) {
+        return isSimiliar(s1, s2);
+    } 
+}

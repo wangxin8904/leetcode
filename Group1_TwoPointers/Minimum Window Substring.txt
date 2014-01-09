@@ -1,0 +1,59 @@
+public class Solution {
+     private boolean covered(int[] std, int[] cur) {
+		boolean flag = true;
+		for(int j = 0; j < std.length; j++) {
+			if(std[j] > cur[j]) {
+				flag = false; 
+				break;
+			}
+		}
+		return flag;
+	}
+    
+    public String minWindow(String S, String T) {
+        // Start typing your Java solution below
+        // DO NOT write main() function
+        if(T.length() > S.length()) return "";
+        
+    	int[] std = new int[256];
+    	for(int i = 0; i < T.length(); i++) {
+    		std[T.charAt(i)]++;
+    	}
+
+    	int[] cur = new int[256];
+    	String str = "";
+    	int strLen = Integer.MAX_VALUE;
+    	
+    	int left = 0, right = 0;
+    	cur[S.charAt(left)]++;
+    	while(left <= right) {
+    		if(!covered(std, cur)) {
+    		    right++;
+    			if(right > S.length() - 1) break;
+    			
+    			if(std[S.charAt(right)] > 0)
+    			    cur[S.charAt(right)]++;
+    		} else {
+    		    while(std[S.charAt(left)] == 0 || cur[S.charAt(left)] > std[S.charAt(left)]) {
+    		        if(cur[S.charAt(left)] > std[S.charAt(left)])
+    		            cur[S.charAt(left)]--;
+    		        left++;
+    		    }
+    		    
+    			int l = right - left + 1;
+
+    			if(l < strLen) {
+    			    strLen = l;
+    				str = S.substring(left, right+1);
+    			}
+                
+                if(std[S.charAt(left)] > 0)
+                	cur[S.charAt(left)]--;
+                
+                left++;
+    		}
+    	}
+    	
+    	return str;
+    }
+}

@@ -1,0 +1,85 @@
+/**
+ * Definition for an interval.
+ * public class Interval {
+ *     int start;
+ *     int end;
+ *     Interval() { start = 0; end = 0; }
+ *     Interval(int s, int e) { start = s; end = e; }
+ * }
+ */
+public class Solution {
+    
+    class MyComparator implements Comparator<Interval> {
+        public int compare(Interval o1, Interval o2) {
+			if(o1.start > o2.start) return 1;
+			if(o1.start < o2.start) return -1;
+			if(o1.start == o2.start) return 0;
+			return 0;
+		}
+    }
+    
+    public ArrayList<Interval> merge(ArrayList<Interval> intervals) {
+        // Note: The Solution object is instantiated only once and is reused by each test case.
+        if(intervals.size() <= 1) return intervals;
+        
+        Collections.sort(intervals, new MyComparator());
+        
+        ArrayList<Interval> ans = new ArrayList<Interval>();
+        
+        int i = 0;
+        while(i < intervals.size()) {
+            int j = i + 1;
+            int end = intervals.get(i).end;
+            while(j < intervals.size() && end >= intervals.get(j).start) {
+                end = ( end > intervals.get(j).end ) ? end : intervals.get(j).end;
+                j = j + 1;
+            }
+            
+            ans.add(new Interval(intervals.get(i).start, end));
+            
+            i = j;
+        }
+        
+        return ans;
+    }
+}
+
+
+
+--------------------------------------------------------
+public class Solution {
+    class MyComparator implements Comparator<Interval> {
+        
+        public int compare(Interval o1, Interval o2) {
+            if(o1.start != o2.start) return o1.start - o2.start;
+            else return o1.end - o2.end;
+        }
+    }
+    
+    public ArrayList<Interval> merge(ArrayList<Interval> intervals) {
+        if(intervals.size() <= 1) return intervals;
+        
+        ArrayList<Interval> res = new ArrayList<Interval>();
+        
+        Collections.sort(intervals, new MyComparator());
+        
+        int start = intervals.get(0).start;
+        int end = intervals.get(0).end;
+        int i = 1;
+        
+        while(i < intervals.size()) {
+            Interval cur = intervals.get(i);
+            if(end < cur.start) {
+                res.add(new Interval(start, end));
+                start = cur.start; end = cur.end;
+                i++; continue;
+            } else {
+                end = (end > cur.end) ? end : cur.end;
+                i++; continue;
+            }
+        }
+        res.add(new Interval(start, end));
+        
+        return res;
+    }
+}

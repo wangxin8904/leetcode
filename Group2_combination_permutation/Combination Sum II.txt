@@ -1,0 +1,61 @@
+public class Solution {
+    
+    private int total(ArrayList<Integer> stack, int[] num) {
+        int t = 0;
+        for(int i = 0; i < stack.size(); i++) {
+            int idx = stack.get(i);
+            t += num[idx];
+        }
+        return t;
+    }
+    
+    private void dfs(ArrayList<ArrayList<Integer>> res, ArrayList<Integer> stack, int[] num, int target) {
+        if(total(stack, num) > target) return;
+        if(total(stack, num) == target) {
+            ArrayList<Integer> temp = new ArrayList<Integer>();
+            for(int k = 0; k < stack.size(); k++) {
+                temp.add(num[stack.get(k)]);
+            }
+            Collections.sort(temp);
+            res.add(temp);
+            return;
+        }
+        
+        int maxIdx = stack.get(stack.size() - 1);
+     
+        for(int j = maxIdx + 1; j < num.length; j++) {
+        	if(j > 0 && num[j] == num[j -1]) {
+        		if(!stack.contains(j - 1))
+        			continue;
+        	}
+        	
+            stack.add(j);
+            dfs(res, stack, num, target);
+            stack.remove(stack.size() - 1);
+        }
+    }
+    
+    public ArrayList<ArrayList<Integer>> combinationSum2(int[] num, int target) {
+        // IMPORTANT: Please reset any member data you declared, as
+        // the same Solution instance will be reused for each test case.
+        Arrays.sort(num);
+        
+        ArrayList<ArrayList<Integer>> res = new ArrayList<ArrayList<Integer>>();
+        ArrayList<Integer> stack = new ArrayList<Integer>(); //stack records the idx of used elements in num
+        
+        for(int i = 0; i < num.length; i++) {
+    		//for duplicate, we must check if the first one is used
+    		// example, [1, 1]. Only when the first 1 is used, we can use the second 1
+        	if(i > 0 && num[i] == num[i -1]) {
+        		if(!stack.contains(i - 1))
+        			continue;
+        	}
+        	
+            stack.add(i);
+            dfs(res, stack, num, target);
+            stack.remove(stack.size() - 1);
+        }
+        
+        return res;
+    }
+}

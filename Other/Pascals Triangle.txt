@@ -1,0 +1,33 @@
+public class Solution {
+    private ArrayList<Integer> gen(ArrayList<Integer> up) {
+        ArrayList<Integer> down = new ArrayList<Integer>();
+        
+        for(int i = 0; i <= up.size(); i++) {
+            int tmp = 0;
+            if(i > 0) tmp += up.get(i - 1);
+            if(i < up.size()) tmp += up.get(i);
+            down.add(tmp);
+        }
+        
+        return down;
+    }
+    
+    
+    public ArrayList<ArrayList<Integer>> generate(int numRows) {
+        // IMPORTANT: Please reset any member data you declared, as
+        // the same Solution instance will be reused for each test case.
+        ArrayList<ArrayList<Integer>> res = new ArrayList<ArrayList<Integer>>();
+        if(numRows <= 0) return res;
+        
+        ArrayList<Integer> ori = new ArrayList<Integer>();
+        ori.add(1);
+        res.add(ori);
+        
+        for(int i = 1; i < numRows; i++) {
+            ArrayList<Integer> cur = gen(res.get(res.size() - 1) );
+            res.add(cur);
+        }
+        
+        return res;
+    }
+}

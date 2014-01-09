@@ -1,0 +1,34 @@
+/**
+ * Definition for binary tree
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    private int getHeight(TreeNode root) {
+        if(root == null) return 0;
+        
+        int leftH = getHeight(root.left);
+        if(leftH == -1) return -1;
+        
+        int rightH = getHeight(root.right);
+        if(rightH == -1) return -1;
+        
+        int diff = Math.abs(leftH - rightH);
+        if(diff > 1) return -1;
+        
+        return (leftH > rightH ? leftH : rightH) + 1;
+        
+    }
+    
+    public boolean isBalanced(TreeNode root) {
+        // Note: The Solution object is instantiated only once and is reused by each test case.
+        int height = getHeight(root);
+        if(height == -1) return false;
+        
+        return true;
+    }
+}

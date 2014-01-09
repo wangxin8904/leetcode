@@ -1,0 +1,39 @@
+public class Solution {
+    public ListNode reverseKGroup(ListNode head, int k) {
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        
+        ListNode outLeft = dummy, left = dummy, right = dummy;
+        
+        boolean flag = true;
+        while(flag) {
+            // find k element
+            left = outLeft.next;
+            for(int i = 0; i < k; i++) {
+                if(right.next == null) {
+                    flag = false; break;
+                } else {
+                    right = right.next;
+                }
+            }
+            if(flag == false) break;
+            
+            // reverse the [left, right] segment
+            ListNode former = left, cur = left;
+            for(int i = 0; i < k; i++) {
+                ListNode next = cur.next;
+                cur.next = former;
+                former = cur;
+                cur = next;
+            }
+            
+            left.next = cur;
+            outLeft.next = right;
+            outLeft = left;
+            
+            right = left;
+        }
+        
+        return dummy.next;
+    }
+}

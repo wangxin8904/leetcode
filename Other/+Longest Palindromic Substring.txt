@@ -1,0 +1,82 @@
+
+---------------Manacher’s algorithm O(n) time, O(n) space------
+// http://leetcode.com/2011/11/longest-palindromic-substring-part-ii.html
+// http://www.felix021.com/blog/read.php?2040
+
+public class Solution {
+    // http://www.felix021.com/blog/read.php?2040
+    
+    public String longestPalindrome(String s) {
+        StringBuffer sb = new StringBuffer();
+        sb.append("#");
+        for(int i = 0; i < s.length(); i++) {
+            sb.append(s.substring(i, i+1));
+            sb.append("#");
+        }
+        String str = sb.toString();
+        int[] p = new int[str.length()];
+        //for(int i = 0; i < p.length; i++) p[i] = 1;
+        
+        int maxIdx = 0;
+        int mx = maxIdx + p[maxIdx];
+        
+        int i = 0;
+        while(i < p.length) {
+            int j = 2 * maxIdx - i; 
+            //
+            if(i > mx) p[i] = 1;
+            else p[i] = Math.min(p[j], mx - i);
+            
+            while( i + p[i] < str.length() && i - p[i] >= 0) {
+                if(str.charAt(i + p[i]) == str.charAt(i - p[i])) p[i]++;
+                else break;
+            }
+            
+            if(i + p[i] > mx) {
+                maxIdx = i;
+                mx = i + p[i] - 1;
+            }
+            
+            i++;
+        } 
+        
+        int m = 0;
+        for(int t = 0; t < p.length; t++) {
+            if(p[t] > p[m]) m = t;
+        }
+        
+        String ans = str.substring(m - p[m] + 1, m + p[m]);
+        ans = ans.replaceAll("#", "");
+        return ans;
+    }
+}
+
+
+----------O(n^2) time, O(1) space-----------------------
+public class Solution {
+    
+    private String maxLen(String s, int left, int right) {
+        int i = left, j = right;
+        
+        while(i >= 0 && j < s.length() && i <= j) {
+            if(s.charAt(i) != s.charAt(j)) break;
+            i--; j++;
+        }
+        
+        if(j - i < 2) return "";
+        return s.substring(i + 1, j);
+    }
+    
+    public String longestPalindrome(String s) {
+        String maxPan = "";
+        if(s.length() <= 1) return s;
+        
+        for(int i = 0; i < s.length() - 1; i++) {
+            String odd = maxLen(s, i, i);
+            String even = maxLen(s, i, i+1);
+            odd = (odd.length() >= even.length()) ? odd : even;
+            if(odd.length() > maxPan.length() ) maxPan = odd;
+        }
+        return maxPan;
+    }
+}

@@ -1,0 +1,47 @@
+/**
+ * Definition for binary tree
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    private int sum(ArrayList<Integer> cur) {
+        int s = 0;
+        for(Integer i : cur) {
+            s += i;
+        }
+        return s;
+    }
+    
+    private void dfs(ArrayList<ArrayList<Integer>> res, ArrayList<Integer> cur, int sum, TreeNode root) {
+        if(root == null) return;
+        
+        cur.add(root.val);
+        
+        if(root.left == null && root.right == null) {
+            if(sum(cur) == sum) {
+                ArrayList<Integer> temp = new ArrayList<Integer>(cur);
+                res.add(temp);
+            }
+        }
+        
+        dfs(res, cur, sum, root.left);
+        dfs(res, cur, sum, root.right);
+        
+        cur.remove(cur.size() - 1);
+    }
+    
+    public ArrayList<ArrayList<Integer>> pathSum(TreeNode root, int sum) {
+        // IMPORTANT: Please reset any member data you declared, as
+        // the same Solution instance will be reused for each test case.
+        ArrayList<ArrayList<Integer>> res = new ArrayList<ArrayList<Integer>>();
+        ArrayList<Integer> cur = new ArrayList<Integer>();
+        
+        dfs(res, cur, sum, root);
+        
+        return res;
+    }
+}

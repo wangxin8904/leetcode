@@ -1,0 +1,31 @@
+public class Solution {
+    
+    private int find(int[] A, int target, int start, int end) {
+        if(start > end) return -1;
+        if(start == end ) {
+            if(A[start] == target) return start;
+            else return -1;
+        }
+        
+        int mid = (start + end) / 2;
+        if(A[mid] == target) return mid;
+        
+        if(A[start] < A[mid]) {  // left sorted
+            if(A[start] <= target && target < A[mid]) 
+                return find(A, target, start, mid - 1);
+            else 
+                return find(A, target, mid + 1, end);
+        } else {  // right sorted
+            if(A[mid + 1] <= target && target <= A[end])
+                return find(A, target, mid + 1, end);
+            else 
+                return find(A, target, start, mid - 1);
+        } 
+        
+    }
+    
+    public int search(int[] A, int target) {
+        
+        return find(A, target, 0, A.length - 1);
+    }
+}

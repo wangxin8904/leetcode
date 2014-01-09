@@ -1,0 +1,111 @@
+
+public class Solution {
+	private ArrayList<String> res = null;
+
+    private void back(HashMap<Integer, ArrayList<Integer>> map, String s, ArrayList<String> words, int level) {
+        ArrayList<Integer> cur = map.get(level);
+        // corner case: no valid result
+        if(cur == null) return;
+        
+        for(int i = 0; i < cur.size(); i++) {
+        	String sub = s.substring(cur.get(i), level);
+        	words.add(sub);
+        	if(cur.get(i) == 0) {
+        		StringBuffer sb = new StringBuffer();
+        		for(int t = words.size() - 1; t >= 0; t--) {
+        			sb.append(words.get(t));
+        			if(t > 0) sb.append(" ");	
+        		}
+        		res.add(sb.toString());
+        	} else {
+        		back(map, s, words, cur.get(i));
+        	}
+        	
+        	words.remove(words.size() - 1);
+        }
+    }
+    
+    public ArrayList<String> wordBreak(String s, Set<String> dict) {
+        res = new ArrayList<String>();
+        // check corner case
+        if(s.length() < 1 || dict.size() < 1) return res;
+        
+        // probe all the break point
+        HashMap<Integer, ArrayList<Integer>> map = new HashMap<Integer, ArrayList<Integer>>();
+        boolean[] check = new boolean[s.length() + 1];
+        check[0] = true;
+        
+        for(int i = 1; i <= s.length(); i++) {
+            for(int j = 0; j < i; j++) {
+                if( check[j] && dict.contains(s.substring(j, i)) ) {
+                    if(!check[i]) check[i] = true;
+                    if( !map.containsKey(i) ) {
+                        ArrayList<Integer> temp = new ArrayList<Integer>();
+                        temp.add(j);
+                        map.put(i, temp);
+                    } else {
+                        ArrayList<Integer> temp = map.get(i);
+                        temp.add(j);
+                    }
+                    
+                }
+            }
+        }
+
+        // backtracking 
+        ArrayList<String> words = new ArrayList<String>();
+        back(map, s, words, s.length());
+        
+        return res;
+    }
+}
+
+
+
+
+
+
+
+
+
+///////////////////////////// First try, only dfs, ETL//////////////////////////////////////
+public class Solution {
+    private void dfs(ArrayList<String> words, ArrayList<String> res, String s, Set<String> dict, int start) {
+        if(start == s.length()) {
+            StringBuffer sb = new StringBuffer();
+            for(int t = 0; t < words.size(); t++) {
+                sb.append(words.get(t));
+                if(t < words.size() - 1)
+                    sb.append(" ");
+            }
+            res.add(sb.toString());
+            return;  
+        }
+        
+        for(int j = start; j < s.length(); j++) {
+            String sub = s.substring(start, j + 1);
+            if(dict.contains(sub)) {
+                words.add(sub);
+                dfs(words, res, s, dict, j + 1);
+                words.remove(words.size() - 1);
+            }
+        }
+
+    }
+    
+    public ArrayList<String> wordBreak(String s, Set<String> dict) {
+        ArrayList<String> words = new ArrayList<String>();
+        ArrayList<String> res = new ArrayList<String>();
+        
+        for(int i = 0; i < s.length(); i++) {
+            String sub = s.substring(0, i + 1);
+            if(dict.contains(sub)) {
+                words.add(sub);
+                dfs(words, res, s, dict, i + 1);
+                words.remove(words.size() - 1);
+            }
+        }
+        
+        return res;
+    }
+}

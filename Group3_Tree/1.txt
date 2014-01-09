@@ -1,0 +1,26 @@
+/**
+ * Definition for binary tree
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    private void dfs(ArrayList<Integer> res, TreeNode root) {
+        if(root == null) return;
+        
+        res.add(root.val);
+        dfs(res, root.left);
+        dfs(res, root.right);
+    }
+    
+    public ArrayList<Integer> preorderTraversal(TreeNode root) {
+        // IMPORTANT: Please reset any member data you declared, as
+        // the same Solution instance will be reused for each test case.
+        ArrayList<Integer> res = new ArrayList<Integer>();
+        dfs(res, root);
+        return res;
+    }
+}

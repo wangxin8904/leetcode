@@ -1,0 +1,37 @@
+public class Solution {
+    
+    
+    private String traverse(String ori) {
+        //String ans = "";
+        StringBuffer ans = new StringBuffer();
+        
+        int start = 0;
+        char c = ori.charAt(0);
+        int i = 0;
+        for(i = 0; i < ori.length(); i++) {
+            if( ori.charAt(i) == c) continue;
+            else {
+                int count = i - start;
+                char temp = (char)(count + '0');
+                ans.append("" + temp + c);
+                start = i;
+                c = ori.charAt(i);
+            }
+        }
+        int count = i - start;
+        char temp = (char)(count + '0');
+        ans.append("" + temp + c);
+        
+        return ans.toString();
+    }
+    
+    public String countAndSay(int n) {
+        String str = "1";
+        if(n == 1) return str;
+        
+        for(int i = 1; i < n; i++) {
+            str = traverse(str);
+        }
+        return str;
+    }
+}

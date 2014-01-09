@@ -1,0 +1,37 @@
+public class Solution {
+    private Stack<Character> square = null;  // 
+
+    
+    public boolean isValid(String s) {
+        // IMPORTANT: Please reset any member data you declared, as
+        // the same Solution instance will be reused for each test case.
+        this.square = new Stack<Character>();
+
+        
+        for(int i = 0; i < s.length(); i++) {
+            Character c = s.charAt(i);
+            
+            if(c == '(' || c == '[' || c == '{') {
+                this.square.add(c);
+            } else {
+                Character a = null;
+                if(this.square.size() > 0 )
+                    a = this.square.pop();
+                else
+                    return false;
+                    
+                if( (a == '(' && c == ')') || (a=='[' && c ==']') || (a=='{' && c =='}') ) {
+                    
+                } else {
+                    return false;
+                }
+            }
+ 
+        }
+        
+        if(square.size() == 0 )
+            return true;
+        else 
+            return false;
+    }
+}

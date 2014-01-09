@@ -1,0 +1,24 @@
+public class Solution {
+    public void merge(int A[], int m, int B[], int n) {
+        // Note: The Solution object is instantiated only once and is reused by each test case.
+        int totalLen = m + n;
+        int pa = m - 1, pb = n-1;
+        
+        for(int i = totalLen - 1; i >= 0; i--) {
+            if(pa >= 0 && pb >= 0) {
+                if(A[pa] >= B[pb]) {
+                    A[i] = A[pa];
+                    if(pa >= 0) pa--;
+                } else {
+                    A[i] = B[pb];
+                    if(pb >= 0) pb--;
+                }
+            } else if(pa < 0) {
+                A[i] = B[pb--];
+            } else {
+                A[i] = A[pa--];
+            }
+        }
+        
+    }
+}

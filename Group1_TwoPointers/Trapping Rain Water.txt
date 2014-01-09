@@ -1,0 +1,30 @@
+public class Solution {
+    public int trap(int[] A) {
+        // refer: http://www.cnblogs.com/lichen782/p/Leetcode_Trapping_Rain_Water.html
+        // better refer: http://blog.163.com/tuchengju@126/blog/static/3807116520137794738514/
+        int total = 0;
+
+        int[] left = new int[A.length];
+        int[] right = new int[A.length];
+        
+        int maxHeight = 0;
+        for(int i = 0; i < A.length; i++) {
+            left[i] = maxHeight;
+            maxHeight = maxHeight > A[i] ? maxHeight : A[i];
+        }
+        maxHeight = 0;
+        for(int i = A.length - 1; i >= 0; i--) {
+            right[i] = maxHeight;
+            maxHeight = maxHeight > A[i] ? maxHeight : A[i];
+        }
+        
+        for(int j = 0; j < A.length; j++) {
+            int min = (left[j] < right[j]) ? left[j] : right[j];
+            int cur = min - A[j];
+            if(cur > 0) 
+                total += cur;
+        }
+        
+        return total;
+    }
+}

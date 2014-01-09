@@ -1,0 +1,84 @@
+/**
+ * Definition for binary tree
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+	private boolean sys(Queue<TreeNode> q1, Queue<TreeNode> q2) {
+		boolean flag = true;
+		
+		while(!q1.isEmpty() || !q2.isEmpty()) {
+			TreeNode one = q1.poll();
+			TreeNode two = q2.poll();
+			
+			if(one.val != two.val) return false;
+			
+			if(one.left == null && two.right != null) return false;
+			else if(one.left != null && two.right == null) return false;
+			else if(one.left != null && two.right != null) {
+				q1.add(one.left); q2.add(two.right);
+			}
+			
+			if(one.right == null && two.left != null) return false;
+			else if(one.right != null && two.left == null) return false;
+			else if(one.right != null && two.left != null) {
+				 q1.add(one.right);
+				 q2.add(two.left);
+			}
+			
+		}
+		
+		return flag;
+	}
+	
+    public boolean isSymmetric(TreeNode root) {
+        // Note: The Solution object is instantiated only once and is reused by each test case.
+    	if(root == null) return true;
+    	
+    	TreeNode left = root.left;
+    	TreeNode right = root.right;
+    	if(left == null && right == null) return true;
+    	if(left == null || right == null) return false;
+    	if(left.val != right.val) return false;
+    	
+    	Queue<TreeNode> q1 = new LinkedList<TreeNode>();
+    	Queue<TreeNode> q2 = new LinkedList<TreeNode>();
+    	
+    	q1.add(left); q2.add(right);
+    	
+        return sys(q1, q2);
+    }
+
+    private void inOrder(TreeNode root, ArrayList<Integer> list) {
+        if(root == null) {
+            list.add(Integer.MIN_VALUE);
+            return;    
+        }
+        
+        inOrder(root.left, list);
+        list.add(root.val);
+        inOrder(root.right, list);
+    } 
+    
+    public boolean isSymmetric(TreeNode root) {
+        // Note: The Solution object is instantiated only once and is reused by each test case.
+        ArrayList<Integer> arr = new ArrayList<Integer>();
+        inOrder(root, arr);
+        
+        //boolean flag = true;
+        int left = 0, right = arr.size() - 1;
+        while(left <= right) {
+            int l = arr.get(left);
+            int r = arr.get(right);
+            if(l != r) return false;
+            
+            left++;
+            right--;
+        }
+        return true;
+    }
+}

@@ -1,0 +1,52 @@
+public class Solution {
+    // http://www.cnblogs.com/lichen782/p/leetcode_maximal_rectangle.html
+    
+    private int maxArea(int[] height) {
+        if(height.length == 1) return height[0];
+        
+        int[] H = new int[height.length + 1];
+        for(int i = 0; i < height.length; i++) H[i] = height[i];
+        
+        Stack<Integer> stack = new Stack<Integer>();
+        int maxArea = 0;
+        
+        int idx = 0;
+        while(idx < H.length) {
+            if(stack.isEmpty() || H[idx] >= H[stack.peek()] ) {
+                stack.push(idx++);
+            } else {
+                int pos = stack.pop();
+                int width = stack.isEmpty() ? idx : idx - stack.peek() - 1 ;
+                int curArea = H[pos] * width;
+                if(curArea > maxArea) maxArea = curArea;
+            }
+        }
+        
+        return maxArea;
+    }
+    
+    public int maximalRectangle(char[][] matrix) {
+        int maxArea = 0;
+        
+        for(int i = 0; i < matrix.length; i++) {
+            int[] height = new int[matrix[0].length];
+            for(int j = 0; j < matrix[0].length; j++) {
+                if(matrix[i][j] == '0') height[j] = 0;
+                else {
+                    int h = 0; 
+                    int row = i;
+                    while(row >= 0 && matrix[row][j] == '1') {
+                        h++;
+                        row--;
+                    }
+                    height[j] = h;
+                }
+                
+            }
+            int curArea = maxArea(height);
+            if(curArea > maxArea) maxArea = curArea;
+        }
+        
+        return maxArea;
+    }
+}

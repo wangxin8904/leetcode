@@ -1,0 +1,47 @@
+public class Solution {
+    public ArrayList<ArrayList<Integer>> fourSum(int[] num, int target) {
+        // Note: The Solution object is instantiated only once and is reused by each test case.
+        ArrayList<ArrayList<Integer>> ans = new ArrayList<ArrayList<Integer>>();
+        if(num.length < 3) return ans;
+        
+        Arrays.sort(num);
+        
+        int one, two, three, four;
+        for(one = 0; one <= num.length - 4; one++) {
+            if(one > 0 && num[one] == num[one - 1])
+                continue;
+                
+            for(two = one + 1; two <= num.length - 3; two++) {
+                if(two > one + 1 && num[two] == num[two - 1])
+                    continue;
+                    
+                three = two + 1; four = num.length - 1;
+                while(three < four) {
+                    int sum = num[one] + num[two] + num[three] + num[four];
+                    
+                    if(sum < target) 
+                        three++;
+                    else if(sum > target)
+                        four--;
+                    else {
+                        ArrayList<Integer> cur = new ArrayList<Integer>();
+                        cur.add(num[one]);
+                        cur.add(num[two]);
+                        cur.add(num[three]);
+                        cur.add(num[four]);
+                        ans.add(cur);
+                        three++;
+                        four--;
+                        while(three < four && num[three] == num[three-1]) 
+                            three++;
+                        while(three < four && num[four] == num[four+1])
+                            four--;
+                            
+                    }
+                }
+            }
+        }
+        
+        return ans;
+    }
+}

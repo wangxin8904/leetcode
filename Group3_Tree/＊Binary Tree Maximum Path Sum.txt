@@ -1,0 +1,37 @@
+/**
+ * Definition for binary tree
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    private int max = Integer.MIN_VALUE;
+    
+    private int dfs(TreeNode root) {
+        if(root == null) return 0;
+        
+        int l = dfs(root.left);
+        int r = dfs(root.right);
+        
+        int cur = root.val;
+        
+        if(l > 0) cur += l;
+        if(r > 0) cur += r;
+        
+        if(cur > max) max = cur;
+        
+        int larger = (l > r) ? l : r;
+        return larger > 0 ? (larger + root.val)  : root.val; 
+    }
+    
+    public int maxPathSum(TreeNode root) {
+        // IMPORTANT: Please reset any member data you declared, as
+        // the same Solution instance will be reused for each test case.
+        this.max = Integer.MIN_VALUE;
+        dfs(root);
+        return max;
+    }
+}

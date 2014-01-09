@@ -1,0 +1,47 @@
+public class Solution {
+    
+    private int maxLess(int[] A, int target, int start, int end) {
+        if(start == end) {
+            if(A[start] < target) return start;
+            if(A[start] >= target) return start - 1;
+        }
+        if(start + 1 == end) {
+            if(A[start] >= target) return start - 1;
+            if(A[end] < target) return end;
+            if(A[start] < target && A[end] >= target) return start;
+        }
+        
+        int mid = (start + end) / 2;
+        if(A[mid] >= target) return maxLess(A, target, start, mid - 1);
+        else return maxLess(A, target, mid + 1, end);
+    }
+    
+    private int minMore(int[] A, int target, int start, int end) {
+        if(start == end) {
+            if(A[start] <= target) return start + 1;
+            if(A[start] > target) return start;
+        }
+        if(start + 1 == end) {
+            if(A[start] > target) return start;
+            if(A[end] <= target) return end + 1;
+            if(A[start] <= target && A[end] > target) return end;
+        }
+        
+        int mid = (start + end) / 2;
+        if(A[mid] <= target) return minMore(A, target, mid + 1, end);
+        else return minMore(A, target, start, mid - 1);
+    }
+    
+    public int[] searchRange(int[] A, int target) {
+        int[] range = new int[2];
+        int l = maxLess(A, target, 0, A.length - 1);
+        int r = maxLess(A, target + 1, 0, A.length - 1);
+        if(l ==  r ) {
+        	range[0] = -1; range[1] = -1;
+        } else {
+        	range[0] = l + 1;  range[1] = r;
+        }
+        return range;
+    }
+    
+}

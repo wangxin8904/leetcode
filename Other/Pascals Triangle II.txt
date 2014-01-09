@@ -1,0 +1,26 @@
+public class Solution {
+        
+    // take advantage of the property of pascal triangle
+    private void update(int[] arr) {
+        for(int i = 1; i < arr.length; i++) {
+            arr[i] = arr[i - 1] + arr[i];
+        }
+    }
+    
+    public ArrayList<Integer> getRow(int rowIndex) {
+        // IMPORTANT: Please reset any member data you declared, as
+        // the same Solution instance will be reused for each test case.
+        int[] arr = new int[rowIndex + 1];
+        for(int i = 0; i < arr.length; i++) arr[i] = 1;
+        
+        ArrayList<Integer> ans = new ArrayList<Integer>();
+        int idx = 0;
+        ans.add(arr[arr.length - 1 - idx]);
+        
+        for(idx = 1; idx <= rowIndex; idx++) {
+            update(arr);
+            ans.add(arr[arr.length - 1 - idx]);
+        }
+        return ans;
+    }
+}

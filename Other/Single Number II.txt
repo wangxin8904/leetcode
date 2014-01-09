@@ -1,0 +1,14 @@
+public class Solution {
+    //http://gongxuns.blogspot.com/2013/10/leetcode-single-number-ii.html
+    public int singleNumber(int[] A) {
+        int single = 0;
+        for(int j = 0; j < 32; j++) {
+            int ini = 0;
+            for(int i = 0; i < A.length; i++) {
+                ini = (ini + (A[i] >> j & 1) ) % 3;
+            }
+            single += (ini << j);
+        }
+        return single;
+    }
+}

@@ -1,0 +1,29 @@
+public class Solution {
+    //corner case 1: A empty
+    // corner case 2: A have all [1, A.length] positive int,return len+1
+    // corner case 3: duplicates!!!
+    // corner case 4: store 1 at A[0], not 0 at A[0]
+    // corner case 5: swap to right may need check again { -1,4,2,1,9}
+    public int firstMissingPositive(int[] A) {
+        // swap A[i] (>=0) to A[A[i]]
+        for(int i = 0; i < A.length; i++) {
+            int val = A[i];
+            if(val > 0 && val < A.length) {
+                int temp = A[val - 1];
+                if(temp == val) continue;
+                
+                A[val - 1] = val;
+                A[i] = temp;
+                
+                if(val > i) i--;
+            }
+        }
+        
+        for(int i = 0; i < A.length; i++) {
+            if(A[i] != i + 1) {
+                return i+1;
+            }
+        }
+        return A.length + 1;
+    }
+}

@@ -1,0 +1,45 @@
+public class Solution {
+    public int removeDuplicates(int[] A) {
+        // Note: The Solution object is instantiated only once and is reused by each test case.
+        if(A == null) return 0;
+        if(A.length <= 1) return A.length;
+        
+        boolean toDel = false;
+        int start = 0, end = 0;
+        
+        int afterLen = A.length;
+        while(end < afterLen - 1) {
+            if(!toDel) {
+                if(A[end+1] != A[start]) {
+                    start++; end++;
+                } else {
+                    end++;
+                    toDel = true;
+                }
+            } else {
+                if(A[end+1] != A[start]) {
+                    for(int j = start + 1; j < afterLen - (end - start); j++) {
+                        A[j] = A[j + end - start];
+                    }
+                    toDel = false;
+                    
+                    afterLen -= end - start;
+                    end = start + 1;
+                    start = start + 1; 
+                } else {
+                    end++;
+                }
+            }
+        }
+        
+        if (toDel) {
+			for (int j = start + 1; j < afterLen - (end - start); j++) {
+				A[j] = A[j + end - start];
+			}
+			toDel = false;
+			afterLen -= end - start;
+		}
+        
+        return afterLen;
+    }
+}

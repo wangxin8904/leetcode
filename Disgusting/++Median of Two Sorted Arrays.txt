@@ -1,0 +1,49 @@
+// This is so fucking hard!
+// http://blog.csdn.net/yutianzuijin/article/details/11499917
+
+public class Solution {
+    // find kth element in two sorted array
+    private int findKth(int[] A, int AStart, int[] B, int BStart, int k) {
+        // stop condition
+        if(A.length - AStart + 1 > B.length - BStart + 1) {
+            return findKth(B, BStart, A, AStart, k);
+        }
+        
+        if(A.length - AStart == 0) return B[k - 1];
+        if(B.length - BStart == 0) return A[k - 1];
+        
+        if(k == 1) {
+            return A[AStart] < B[BStart] ? A[AStart] : B[BStart];
+        }
+        
+        //
+        int mid = k / 2;
+        int pa = ( (A.length - 1 - AStart + 1) < k / 2 ) ? (A.length - 1 - AStart + 1) : (k / 2);
+        int pb = k - pa;
+        
+        if(A[AStart + pa - 1] < B[BStart + pb - 1]) {
+            return findKth(A, AStart + pa, B, BStart, k - pa);
+        } else if(A[AStart + pa - 1] > B[BStart + pb - 1]) {
+            return findKth(A, AStart, B, BStart + pb, k - pb);
+        } else {
+            return A[pa - 1];
+        }
+      
+    }
+    
+    
+
+    // convert this problem into find kth element in two sorted array   
+    public double findMedianSortedArrays(int A[], int B[]) {
+        int k = (A.length + B.length) / 2;
+        
+        if( (A.length + B.length) % 2 == 0) { 
+            // if even elements, return the average of median two
+            return ( (double) findKth(A, 0, B, 0, k) 
+            		+ (double) findKth(A, 0, B, 0, k + 1)   ) / 2;
+        } else {
+            // odd elements, return the median one
+            return  (double)findKth(A, 0, B, 0, k + 1);
+        }
+    }
+}
