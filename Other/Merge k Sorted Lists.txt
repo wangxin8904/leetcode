@@ -10,6 +10,53 @@
  * }
  */
 public class Solution {
+	class MyComparator implements Comparator<ListNode> {
+		@Override
+		public int compare(ListNode o1, ListNode o2) {
+			return o1.val - o2.val;
+		}
+	}
+
+    public ListNode mergeKLists(ArrayList<ListNode> lists) {
+        ListNode dummy = new ListNode(0);
+        ListNode cur = dummy;
+        
+        if(lists.size() < 1) return dummy.next;
+        
+        PriorityQueue<ListNode> heap = new PriorityQueue<ListNode>(lists.size(), new MyComparator());
+        for(int i = 0; i < lists.size(); i++) {
+        	ListNode temp = lists.get(i);
+        	if(temp != null)
+        	    heap.add(temp);
+        }
+        
+        while(!heap.isEmpty()) {
+        	ListNode smallest = heap.poll();
+        	cur.next  = smallest;
+        	smallest = smallest.next;
+        	cur = cur.next;
+        	cur.next = null;
+        	if(smallest != null) heap.add(smallest);
+        }
+        
+        return dummy.next;
+    }
+}
+
+
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) {
+ *         val = x;
+ *         next = null;
+ *     }
+ * }
+ */
+public class Solution {
     private ListNode getSmall(ArrayList<ListNode> lists) {
         if(lists.size() == 0) return null;
         

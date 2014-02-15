@@ -1,4 +1,5 @@
 // dp
+// http://blog.unieagle.net/2012/09/29/leetcode%E9%A2%98%E7%9B%AE%EF%BC%9Ainterleaving-string%EF%BC%8C%E4%BA%8C%E7%BB%B4%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/
 public class Solution {
     public boolean isInterleave(String s1, String s2, String s3) {
         if(s1.length() + s2.length() != s3.length()) return false;

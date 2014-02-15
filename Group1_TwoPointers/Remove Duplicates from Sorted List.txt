@@ -1,3 +1,19 @@
+public class Solution {
+    public ListNode deleteDuplicates(ListNode head) {
+        ListNode cur = head;
+        ListNode prev = head;
+        
+        while(cur != null) {
+            while(cur != null && cur.val == prev.val) cur = cur.next;
+            prev.next = cur;
+            prev = cur;
+        }
+        
+        return head;
+    }
+}
+————————————————————————————
+
 /**
  * Definition for singly-linked list.
  * public class ListNode {

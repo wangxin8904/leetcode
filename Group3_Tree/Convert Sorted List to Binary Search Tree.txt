@@ -66,3 +66,36 @@ public class Solution {
         return subTree(head, tail, totalLen);
     }
 }
+
+
+
+
+/*****************O(n) solution bottom to top***************************/
+    private ListNode cur = null;
+    
+    private TreeNode convertBST(int start, int end) {
+        if(start > end) return null;
+        
+        int mid = (start + end) / 2;
+        
+        TreeNode leftChild = convertBST(start, mid - 1);
+        TreeNode root = new TreeNode(cur.val);
+        
+        root.left = leftChild;
+        
+        cur = cur.next;
+        root.right = convertBST(mid + 1, end);
+        
+        return root;
+    }
+    
+    public TreeNode sortedListToBST(ListNode head) {
+        this.cur = head;
+        int len = 0;
+        while(head != null) {
+            len++;
+            head = head.next;
+        }
+        
+        return  convertBST(0, len - 1);
+    }

@@ -1,3 +1,34 @@
+public class Solution {
+    
+    private int max;
+    private int dfs(TreeNode root) {
+        if(root == null) return 0;
+        
+        int left = dfs(root.left);
+        int right = dfs(root.right);
+        
+        int path = root.val;
+        if(left > 0) path += left;
+        if(right > 0) path += right;
+        if(path > max) 
+            max = path;
+        
+        left = left > right ? left : right;
+        
+        if(left > 0)
+            return left + root.val;
+        else 
+            return root.val;
+    }
+    
+    public int maxPathSum(TreeNode root) {
+        max = Integer.MIN_VALUE;
+        dfs(root);
+        return max;
+    }
+}
+
+
 /**
  * Definition for binary tree
  * public class TreeNode {

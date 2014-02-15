@@ -1,0 +1,32 @@
+    public int atoi(String str) {
+        // 1) +/- 2) leading whitespace 3) tailing non-digit char 4) overeflow 5) empty
+        if(str == null || str.length() < 1) return 0;
+        
+        str = str.trim();
+        long res = 0;
+        boolean pos = true;
+        
+        int i = 0;
+        if(str.charAt(0) == '+') i++;
+        else if(str.charAt(0) == '-') {
+            i++;
+            pos = false;
+        }
+        
+        for(int j = i; j < str.length(); j++) {
+            char c = str.charAt(j);
+            if(c >= '0' && c <= '9') {
+                long t = c - '0';
+                res = res * 10 + t;
+            } else 
+                return 0;
+        }
+        
+        if(!pos)
+            res = -1*res; // must judge first, if we check at last we will meet -NEG = MAX error
+        if(res>Integer.MAX_VALUE)
+            return Integer.MAX_VALUE;
+        if(res<Integer.MIN_VALUE)
+            return Integer.MIN_VALUE;
+        return (int)res;
+    }

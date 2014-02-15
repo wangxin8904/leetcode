@@ -1,8 +1,9 @@
 import java.util.*;
 import java.util.ArrayList;
 
+// A better solution http://yucoding.blogspot.com/2013/04/leetcode-question-69-permutations.html
 
-// Notice: the input should not have duplicates
+// My solution. Notice: the input should not have duplicates
 public class Permutations {
 
     private void dfs(int idx, ArrayList<Integer> track,  ArrayList<ArrayList<Integer>> res, int[] num) {

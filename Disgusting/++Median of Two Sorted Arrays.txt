@@ -26,7 +26,7 @@ public class Solution {
         } else if(A[AStart + pa - 1] > B[BStart + pb - 1]) {
             return findKth(A, AStart, B, BStart + pb, k - pb);
         } else {
-            return A[pa - 1];
+            return A[AStart + pa - 1];
         }
       
     }
@@ -47,3 +47,38 @@ public class Solution {
         }
     }
 }
+
+
+///////////////
+    // ahead, bhead starts from 0, K starts from 1
+    public double findKth(int A[], int ahead, int[] B, int bhead, int K) {
+    	// always assume A is shorter
+        if(A.length - ahead > B.length - bhead) return findKth(B, bhead, A, ahead, K);
+        
+        if(A.length - ahead <= 0) return B[bhead + K - 1];
+        if(B.length - bhead <= 0) return A[ahead + K - 1];
+        
+        if(K == 1) return A[ahead] < B[bhead] ? A[ahead] : B[bhead];
+        
+        int pa = K / 2;
+        pa = (pa <= A.length - 1 - ahead + 1) ? pa : A.length - 1 - ahead + 1;
+        int pb = K - pa;
+        if(A[ahead + pa - 1] < B[bhead + pb - 1] ) {
+            return findKth(A, ahead + pa, B, bhead, K - pa);
+        } if(A[ahead + pa - 1] > B[bhead + pa - 1]) {
+            return findKth(A, ahead, B, bhead + pb, K - pb);
+        } else {
+            return A[ahead + pa - 1];
+        }
+    }
+    
+    public double findMedianSortedArrays(int A[], int B[]) {
+        int m = A.length;
+        int n = B.length;
+        int len = m + n;
+        if(len % 2 == 0) {
+            return (findKth(A, 0, B, 0, len / 2) + findKth(A, 0, B, 0, len / 2 + 1) ) / 2;
+        } else {
+            return findKth(A, 0, B, 0, len / 2 + 1);
+        }
+    }
