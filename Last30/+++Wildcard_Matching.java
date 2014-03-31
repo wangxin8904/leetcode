@@ -1,3 +1,4 @@
+// http://n00tc0d3r.blogspot.com/2013/05/wildcard-matching.html
 // http://xoomer.virgilio.it/acantato/dev/wildcard/wildmatch.html
 
 public class Solution {

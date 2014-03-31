@@ -1,39 +1,14 @@
 public class Solution {
-    private boolean check(String s, int start, int end) {
-        if(start >= s.length() || end >= s.length()) return false;
-        while(start < end) {
-            if(s.charAt(start) != s.charAt(end))
-                return false;
+        long dataLen = data.length;
+        DeviceType type = getBestDevice(dataLen);
         
-            start++;
-            end--;
-        }
+        DeviceDriver driver = getNewDriver(type);
+        
+        boolean flag = driver.initializeDriver();
+        if(!flag) return false;
+        
+        flag = driver.writeBytes(id, data);
+        if(!flag) return false;
+        
         return true;
-    }
-    
-    private void dfs(ArrayList<ArrayList<String>> res, ArrayList<String> cur, int start, String s) {
-        if(start == s.length()) {
-            ArrayList<String> temp = new ArrayList<String>(cur);
-            res.add(temp);
-            return;
-        }
-        
-        for(int i = start; i < s.length(); i++) {
-            if(check(s, start, i)) {
-                cur.add(s.substring(start, i + 1));
-                dfs(res, cur, i + 1, s);
-                cur.remove(cur.size() - 1);
-            }
-        }
-    }
-    
-    public ArrayList<ArrayList<String>> partition(String s) {
-        // IMPORTANT: Please reset any member data you declared, as
-        // the same Solution instance will be reused for each test case.
-        ArrayList<ArrayList<String>> res = new ArrayList<ArrayList<String>>();
-        ArrayList<String> cur = new ArrayList<String>();
-        
-        dfs(res, cur, 0, s);
-        return res;
-    }
 }
